@@ -1,0 +1,15 @@
+---
+- name: "Add phoenix user"
+  user: name={{ phoenix_user }} system=yes home="/var/lib/{{ phoenix_user }}" createhome=no comment="erlang phoenix framework user" shell="/sbin/nologin"
+- name: "Add phoenix user directory"
+  file: path="/var/lib/{{ phoenix_user }}" owner="{{ phoenix_user }}" group="{{ phoenix_user }}" state="directory"
+- name: "inatall phoenix framework and dependency mix local.hex"
+  command: "{{ item }} chdir=/var/lib/{{ phoenix_user }}"
+  with_items:
+    - "mix local.hex --force"
+    - "mix local.rebar --force"
+    - "mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez --force"
+  become: True
+  become_user: "{{ phoenix_user }}"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/opt/elixir-lang/elixir/bin/"

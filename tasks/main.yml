@@ -1,0 +1,6 @@
+---
+- include: required.yml
+- include: erlang.yml
+- include: elixir.yml
+- include: nodejs.yml
+- include: phoenix.yml

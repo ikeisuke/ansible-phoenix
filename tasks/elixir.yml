@@ -1,0 +1,14 @@
+---
+- name: Create elixir directory
+  file: path="/opt/elixir-lang/elixir" state="directory"
+
+- name: Download compiled elixir
+  get_url: url="https://github.com/elixir-lang/elixir/releases/download/v1.2.3/Precompiled.zip" dest="/usr/local/src"
+  register: downloadelixir
+
+- name: Unzip elixir archive
+  unarchive: src="/usr/local/src/Precompiled.zip" dest="/opt/elixir-lang/elixir/" copy=no
+  when: downloadelixir|changed
+
+- name: Upload profile.d/elixir.sh
+  copy: src="elixir.sh" dest="/etc/profile.d/elixir.sh"

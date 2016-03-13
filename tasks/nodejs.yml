@@ -1,0 +1,13 @@
+---
+- name: "download nodejs5x setup script"
+  get_url: url="https://rpm.nodesource.com/setup_5.x" dest="/tmp/"
+
+- name: "setup nodeje5x"
+  command: "bash /tmp/setup_5.x"
+
+- name: "setup development tools"
+  yum: name="{{ item }}" state="latest"
+  with_items:
+  - "gcc-c++"
+  - "make"
+  - "nodejs"

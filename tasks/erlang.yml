@@ -1,0 +1,12 @@
+---
+- name: "check erlang solutions repo installed"
+  yum: name="erlang-solutions.noarch" state="installed"
+  register: result
+  ignore_errors: True
+
+- name: "install erlang solutions repo"
+  yum: name="http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm" state="installed"
+  when: result|failed
+
+- name: "Install erlang"
+  yum: name="erlang"
